@@ -1,0 +1,50 @@
+name: flutter_keyboard_visibility
+publish_to: none
+description: Flutter plugin for discovering the state of the soft-keyboard visibility on Android and iOS.
+version: 5.4.3
+homepage: https://github.com/MisterJimson/flutter_keyboard_visibility
+repository: https://github.com/MisterJimson/flutter_keyboard_visibility
+
+environment:
+  sdk: '>=3.1.0 <4.0.0'
+  flutter: ">=3.13.0"
+
+dependencies:
+  meta: ">=1.9.1"
+  flutter_keyboard_visibility_platform_interface: 
+    git: https://github.com/kumsumit/flutter_keyboard_visibility_platform_interface.git
+  flutter_keyboard_visibility_linux: 
+    git: https://github.com/kumsumit/flutter_keyboard_visibility_linux.git
+  flutter_keyboard_visibility_macos: 
+    git: https://github.com/kumsumit/flutter_keyboard_visibility_macos.git
+  flutter_keyboard_visibility_web: 
+    git: https://github.com/kumsumit/flutter_keyboard_visibility_web.git
+  flutter_keyboard_visibility_windows:
+    git: https://github.com/kumsumit/flutter_keyboard_visibility_windows.git
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  build_runner: ^2.4.6
+  mockito: ^5.4.2
+  flutter_lints: 
+    git: https://github.com/kumsumit/flutter_lints.git
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.jrai.flutter_keyboard_visibility
+        pluginClass: FlutterKeyboardVisibilityPlugin
+      ios:
+        pluginClass: FlutterKeyboardVisibilityPlugin
+      web:
+        default_package: flutter_keyboard_visibility_web
+      macos:
+        default_package: flutter_keyboard_visibility_macos
+      linux:
+        default_package: flutter_keyboard_visibility_linux
+      windows:
+        default_package: flutter_keyboard_visibility_windows
