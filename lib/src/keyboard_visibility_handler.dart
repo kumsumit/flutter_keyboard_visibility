@@ -10,40 +10,46 @@ class KeyboardVisibilityHandler {
   static FlutterKeyboardVisibilityPlatform get _platform =>
       FlutterKeyboardVisibilityPlatform.instance;
 
-  static bool _isInitialized = false;
-  static final _onChangeController = StreamController<bool>();
+  static KeyboardVisibilityStatus _isInitialized =
+      KeyboardVisibilityStatus.notVisible;
+  static final _onChangeController =
+      StreamController<KeyboardVisibilityStatus>();
   static final _onChange = _onChangeController.stream.asBroadcastStream();
 
   /// Emits true every time the keyboard is shown, and false every time the
   /// keyboard is dismissed.
-  static Stream<bool> get onChange {
+  static Stream<KeyboardVisibilityStatus> get onChange {
     // If _testIsVisible set, don't try to create the EventChannel
-    if (!_isInitialized && _testIsVisible == null) {
+    if (_isInitialized == KeyboardVisibilityStatus.notVisible &&
+        _testIsVisible == null) {
       _platform.onChange.listen(_updateValue);
-      _isInitialized = true;
+      _isInitialized = KeyboardVisibilityStatus.visible;
     }
     return _onChange;
   }
 
   /// Returns true if the keyboard is currently visible, false if not.
-  static bool get isVisible => _testIsVisible ?? _isVisible;
-  static bool _isVisible = false;
+  static KeyboardVisibilityStatus get isVisible => _testIsVisible ?? _isVisible;
+  static KeyboardVisibilityStatus _isVisible =
+      KeyboardVisibilityStatus.notVisible;
 
   /// Fake representation of whether or not the keyboard is visible
   /// for testing purposes. When this value is non-null, it will be
   /// reported exclusively by the `isVisible` getter.
-  static bool? _testIsVisible;
+  static KeyboardVisibilityStatus? _testIsVisible;
 
   /// Forces `KeyboardVisibilityHandler` to report `isKeyboardVisible`
   /// for testing purposes.
   ///
   /// `KeyboardVisibilityHandler` will continue reporting `isKeyboardVisible`
   /// until the value is changed again with this method.
-  static void setVisibilityForTesting(bool isKeyboardVisible) {
+  static void setVisibilityForTesting(
+    KeyboardVisibilityStatus isKeyboardVisible,
+  ) {
     _updateValue(isKeyboardVisible);
   }
 
-  static void _updateValue(bool newValue) {
+  static void _updateValue(KeyboardVisibilityStatus newValue) {
     _testIsVisible = newValue;
 
     // Don't report the same value multiple times

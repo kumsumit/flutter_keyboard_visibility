@@ -6,6 +6,7 @@ import 'dart:async' as _i3;
 
 import 'package:flutter_keyboard_visibility/src/keyboard_visibility_controller.dart'
     as _i2;
+import 'package:flutter_keyboard_visibility_platform_interface/flutter_keyboard_visibility_platform_interface.dart';
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: avoid_redundant_argument_values
@@ -27,11 +28,17 @@ class MockKeyboardVisibilityController extends _i1.Mock
   }
 
   @override
-  _i3.Stream<bool> get onChange =>
-      (super.noSuchMethod(Invocation.getter(#onChange),
-          returnValue: Stream<bool>.empty()) as _i3.Stream<bool>);
+  _i3.Stream<KeyboardVisibilityStatus> get onChange =>
+      (super.noSuchMethod(
+            Invocation.getter(#onChange),
+            returnValue: Stream<KeyboardVisibilityStatus>.empty(),
+          )
+          as _i3.Stream<KeyboardVisibilityStatus>);
   @override
-  bool get isVisible =>
-      (super.noSuchMethod(Invocation.getter(#isVisible), returnValue: false)
-          as bool);
+  KeyboardVisibilityStatus get isVisible =>
+      (super.noSuchMethod(
+            Invocation.getter(#isVisible),
+            returnValue: KeyboardVisibilityStatus.notVisible,
+          )
+          as KeyboardVisibilityStatus);
 }

@@ -12,9 +12,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Demo(),
-    );
+    return MaterialApp(home: Demo());
   }
 }
 
@@ -23,9 +21,7 @@ class Demo extends StatelessWidget {
   Widget build(BuildContext context) {
     return KeyboardDismissOnTap(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text('Keyboard Visibility Example'),
-        ),
+        appBar: AppBar(title: Text('Keyboard Visibility Example')),
         body: Center(
           child: Padding(
             padding: EdgeInsets.all(24.0),
@@ -46,7 +42,8 @@ class Demo extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => KeyboardDismissDemo()),
+                        builder: (context) => KeyboardDismissDemo(),
+                      ),
                     );
                   },
                   child: Text('KeyboardDismiss Demo'),
@@ -59,11 +56,11 @@ class Demo extends StatelessWidget {
                   ),
                 ),
                 Container(height: 60.0),
-                KeyboardVisibilityBuilder(builder: (context, visible) {
-                  return Text(
-                    'The keyboard is: ${visible ? 'VISIBLE' : 'NOT VISIBLE'}',
-                  );
-                }),
+                KeyboardVisibilityBuilder(
+                  builder: (context, visible) {
+                    return Text('The keyboard is: ${visible.name}');
+                  },
+                ),
                 Spacer(),
               ],
             ),

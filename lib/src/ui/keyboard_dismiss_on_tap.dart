@@ -30,7 +30,8 @@ class KeyboardDismissOnTap extends StatefulWidget {
   static void ignoreNextTap(BuildContext context) {
     context
         .dependOnInheritedWidgetOfExactType<
-            _KeyboardDismissOnTapInheritedWidget>()!
+          _KeyboardDismissOnTapInheritedWidget
+        >()!
         .ignoreNextTap();
   }
 }
@@ -78,10 +79,8 @@ class _KeyboardDismissOnTapState extends State<KeyboardDismissOnTap> {
 class IgnoreKeyboardDismiss extends StatelessWidget {
   final Widget child;
 
-  const IgnoreKeyboardDismiss({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
+  const IgnoreKeyboardDismiss({Key? key, required this.child})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {

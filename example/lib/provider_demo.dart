@@ -6,9 +6,7 @@ class ProviderDemo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return KeyboardVisibilityProvider(
-      child: MyDemoPage(),
-    );
+    return KeyboardVisibilityProvider(child: MyDemoPage());
   }
 }
 
@@ -16,9 +14,7 @@ class MyDemoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Keyboard Visibility Provider'),
-      ),
+      appBar: AppBar(title: Text('Keyboard Visibility Provider')),
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(24.0),
@@ -35,7 +31,7 @@ class MyDemoPage extends StatelessWidget {
               ),
               Container(height: 60.0),
               Text(
-                'The keyboard is: ${KeyboardVisibilityProvider.isKeyboardVisible(context) ? 'VISIBLE' : 'NOT VISIBLE'}',
+                'The keyboard is: ${KeyboardVisibilityProvider.isKeyboardVisible(context).name}',
               ),
             ],
           ),

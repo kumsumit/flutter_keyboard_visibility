@@ -11,25 +11,31 @@ import 'flutter_keyboard_visibility_test.mocks.dart';
 @GenerateMocks([KeyboardVisibilityController])
 void main() {
   group('KeyboardVisibilityProvider', () {
-    testWidgets('It reports true when the keyboard is visible',
-        (WidgetTester tester) async {
+    testWidgets('It reports true when the keyboard is visible', (
+      WidgetTester tester,
+    ) async {
       // Pretend that the keyboard is visible.
       var mockController = MockKeyboardVisibilityController();
-      when(mockController.onChange)
-          .thenAnswer((_) => Stream.fromIterable([true]));
-      when(mockController.isVisible).thenAnswer((_) => true);
+      when(mockController.onChange).thenAnswer(
+        (_) => Stream.fromIterable([KeyboardVisibilityStatus.visible]),
+      );
+      when(
+        mockController.isVisible,
+      ).thenAnswer((_) => KeyboardVisibilityStatus.visible);
 
       // Build a Widget tree and query KeyboardVisibilityProvider
       // for the visibility of the keyboard.
-      bool? isKeyboardVisible;
+      KeyboardVisibilityStatus isKeyboardVisible =
+          KeyboardVisibilityStatus.notVisible;
 
       await tester.pumpWidget(
         KeyboardVisibilityProvider(
           controller: mockController,
           child: Builder(
             builder: (BuildContext context) {
-              isKeyboardVisible =
-                  KeyboardVisibilityProvider.isKeyboardVisible(context);
+              isKeyboardVisible = KeyboardVisibilityProvider.isKeyboardVisible(
+                context,
+              );
               return SizedBox();
             },
           ),
@@ -38,28 +44,34 @@ void main() {
 
       // Verify that KeyboardVisibilityProvider reported that the
       // keyboard is visible.
-      expect(isKeyboardVisible, true);
+      expect(isKeyboardVisible, KeyboardVisibilityStatus.visible);
     });
 
-    testWidgets('It reports false when the keyboard is NOT visible',
-        (WidgetTester tester) async {
+    testWidgets('It reports false when the keyboard is NOT visible', (
+      WidgetTester tester,
+    ) async {
       // Pretend that the keyboard is hidden.
       var mockController = MockKeyboardVisibilityController();
-      when(mockController.onChange)
-          .thenAnswer((_) => Stream.fromIterable([false]));
-      when(mockController.isVisible).thenAnswer((_) => false);
+      when(mockController.onChange).thenAnswer(
+        (_) => Stream.fromIterable([KeyboardVisibilityStatus.notVisible]),
+      );
+      when(
+        mockController.isVisible,
+      ).thenAnswer((_) => KeyboardVisibilityStatus.notVisible);
 
       // Build a Widget tree and query KeyboardVisibilityProvider
       // for the visibility of the keyboard.
-      bool? isKeyboardVisible;
+      KeyboardVisibilityStatus isKeyboardVisible =
+          KeyboardVisibilityStatus.visible;
 
       await tester.pumpWidget(
         KeyboardVisibilityProvider(
           controller: mockController,
           child: Builder(
             builder: (BuildContext context) {
-              isKeyboardVisible =
-                  KeyboardVisibilityProvider.isKeyboardVisible(context);
+              isKeyboardVisible = KeyboardVisibilityProvider.isKeyboardVisible(
+                context,
+              );
               return SizedBox();
             },
           ),
@@ -68,28 +80,32 @@ void main() {
 
       // Verify that KeyboardVisibilityProvider reported that the
       // keyboard is visible.
-      expect(isKeyboardVisible, false);
+      expect(isKeyboardVisible, KeyboardVisibilityStatus.notVisible);
     });
 
-    testWidgets('It rebuilds when the keyboard visibility changes',
-        (WidgetTester tester) async {
+    testWidgets('It rebuilds when the keyboard visibility changes', (
+      WidgetTester tester,
+    ) async {
       // Pretend that the keyboard is visible.
       var mockController = MockKeyboardVisibilityController();
-      var streamController = StreamController<bool>();
-      streamController.add(true);
+      var streamController = StreamController<KeyboardVisibilityStatus>();
+      streamController.add(KeyboardVisibilityStatus.visible);
       when(mockController.onChange).thenAnswer((_) => streamController.stream);
-      when(mockController.isVisible).thenAnswer((_) => true);
+      when(
+        mockController.isVisible,
+      ).thenAnswer((_) => KeyboardVisibilityStatus.visible);
 
       // Build a Widget tree with a KeyboardVisibilityProvider.
-      bool? isKeyboardVisible;
+      KeyboardVisibilityStatus? isKeyboardVisible;
 
       await tester.pumpWidget(
         KeyboardVisibilityProvider(
           controller: mockController,
           child: Builder(
             builder: (BuildContext context) {
-              isKeyboardVisible =
-                  KeyboardVisibilityProvider.isKeyboardVisible(context);
+              isKeyboardVisible = KeyboardVisibilityProvider.isKeyboardVisible(
+                context,
+              );
               return SizedBox();
             },
           ),
@@ -97,11 +113,13 @@ void main() {
       );
 
       // We expect that the keyboard is initially reported as visible.
-      expect(isKeyboardVisible, true);
+      expect(isKeyboardVisible, KeyboardVisibilityStatus.visible);
 
       // Pretend that the keyboard has gone from visible to hidden.
-      streamController.add(false);
-      when(mockController.isVisible).thenAnswer((_) => false);
+      streamController.add(KeyboardVisibilityStatus.notVisible);
+      when(
+        mockController.isVisible,
+      ).thenAnswer((_) => KeyboardVisibilityStatus.notVisible);
 
       // Pump the tree to allow the InheritedWidget dependency to
       // rebuild its descendants.
@@ -114,17 +132,21 @@ void main() {
   });
 
   group('KeyboardVisibilityBuilder', () {
-    testWidgets('It reports true when the keyboard is visible',
-        (WidgetTester tester) async {
+    testWidgets('It reports true when the keyboard is visible', (
+      WidgetTester tester,
+    ) async {
       // Pretend that the keyboard is visible.
       var mockController = MockKeyboardVisibilityController();
-      when(mockController.onChange)
-          .thenAnswer((_) => Stream.fromIterable([true]));
-      when(mockController.isVisible).thenAnswer((_) => true);
+      when(mockController.onChange).thenAnswer(
+        (_) => Stream.fromIterable([KeyboardVisibilityStatus.visible]),
+      );
+      when(
+        mockController.isVisible,
+      ).thenAnswer((_) => KeyboardVisibilityStatus.visible);
 
       // Build a Widget tree and query KeyboardVisibilityBuilder
       // for the visibility of the keyboard.
-      bool? isKeyboardVisible;
+      KeyboardVisibilityStatus? isKeyboardVisible;
 
       await tester.pumpWidget(
         KeyboardVisibilityBuilder(
@@ -141,17 +163,21 @@ void main() {
       expect(isKeyboardVisible, true);
     });
 
-    testWidgets('It reports false when the keyboard is NOT visible',
-        (WidgetTester tester) async {
+    testWidgets('It reports false when the keyboard is NOT visible', (
+      WidgetTester tester,
+    ) async {
       // Pretend that the keyboard is hidden.
       var mockController = MockKeyboardVisibilityController();
-      when(mockController.onChange)
-          .thenAnswer((_) => Stream.fromIterable([false]));
-      when(mockController.isVisible).thenAnswer((_) => false);
+      when(mockController.onChange).thenAnswer(
+        (_) => Stream.fromIterable([KeyboardVisibilityStatus.notVisible]),
+      );
+      when(
+        mockController.isVisible,
+      ).thenAnswer((_) => KeyboardVisibilityStatus.notVisible);
 
       // Build a Widget tree and query KeyboardVisibilityBuilder
       // for the visibility of the keyboard.
-      bool? isKeyboardVisible;
+      KeyboardVisibilityStatus? isKeyboardVisible;
 
       await tester.pumpWidget(
         KeyboardVisibilityBuilder(
@@ -165,20 +191,23 @@ void main() {
 
       // Verify that KeyboardVisibilityBuilder reported that the
       // keyboard is visible.
-      expect(isKeyboardVisible, false);
+      expect(isKeyboardVisible, KeyboardVisibilityStatus.notVisible);
     });
 
-    testWidgets('It rebuilds when the keyboard visibility changes',
-        (WidgetTester tester) async {
+    testWidgets('It rebuilds when the keyboard visibility changes', (
+      WidgetTester tester,
+    ) async {
       // Pretend that the keyboard is visible.
       var mockController = MockKeyboardVisibilityController();
-      var streamController = StreamController<bool>();
-      streamController.add(true);
+      var streamController = StreamController<KeyboardVisibilityStatus>();
+      streamController.add(KeyboardVisibilityStatus.visible);
       when(mockController.onChange).thenAnswer((_) => streamController.stream);
-      when(mockController.isVisible).thenAnswer((_) => true);
+      when(
+        mockController.isVisible,
+      ).thenAnswer((_) => KeyboardVisibilityStatus.visible);
 
       // Build a Widget tree with a KeyboardVisibilityBuilder.
-      bool? isKeyboardVisible;
+      KeyboardVisibilityStatus? isKeyboardVisible;
 
       await tester.pumpWidget(
         KeyboardVisibilityBuilder(
@@ -191,11 +220,13 @@ void main() {
       );
 
       // We expect that the keyboard is initially reported as visible.
-      expect(isKeyboardVisible, true);
+      expect(isKeyboardVisible, KeyboardVisibilityStatus.visible);
 
       // Pretend that the keyboard has gone from visible to hidden.
-      streamController.add(false);
-      when(mockController.isVisible).thenAnswer((_) => false);
+      streamController.add(KeyboardVisibilityStatus.notVisible);
+      when(
+        mockController.isVisible,
+      ).thenAnswer((_) => KeyboardVisibilityStatus.notVisible);
 
       await tester.pumpAndSettle();
 
@@ -216,14 +247,8 @@ void main() {
             child: Material(
               child: Column(
                 children: [
-                  SizedBox(
-                    key: Key('box'),
-                    height: 100,
-                    width: 100,
-                  ),
-                  TextField(
-                    focusNode: focusNode,
-                  ),
+                  SizedBox(key: Key('box'), height: 100, width: 100),
+                  TextField(focusNode: focusNode),
                 ],
               ),
             ),
@@ -247,56 +272,64 @@ void main() {
 
   group('KeyboardVisibilityTesting', () {
     testWidgets(
-        'setVisibilityForTesting allows overriding of value to true for testing',
-        (WidgetTester tester) async {
-      // Pretend that the keyboard is visible.
-      KeyboardVisibilityTesting.setVisibilityForTesting(true);
+      'setVisibilityForTesting allows overriding of value to true for testing',
+      (WidgetTester tester) async {
+        // Pretend that the keyboard is visible.
+        KeyboardVisibilityTesting.setVisibilityForTesting(
+          KeyboardVisibilityStatus.visible,
+        );
 
-      // Build a Widget tree and query KeyboardVisibilityProvider
-      // for the visibility of the keyboard.
-      bool? isKeyboardVisible;
+        // Build a Widget tree and query KeyboardVisibilityProvider
+        // for the visibility of the keyboard.
+        KeyboardVisibilityStatus isKeyboardVisible =
+            KeyboardVisibilityStatus.notVisible;
 
-      await tester.pumpWidget(
-        KeyboardVisibilityProvider(
-          child: Builder(
-            builder: (BuildContext context) {
-              isKeyboardVisible =
-                  KeyboardVisibilityProvider.isKeyboardVisible(context);
-              return SizedBox();
-            },
+        await tester.pumpWidget(
+          KeyboardVisibilityProvider(
+            child: Builder(
+              builder: (BuildContext context) {
+                isKeyboardVisible =
+                    KeyboardVisibilityProvider.isKeyboardVisible(context);
+                return SizedBox();
+              },
+            ),
           ),
-        ),
-      );
+        );
 
-      // Verify that KeyboardVisibilityProvider reported that the
-      // keyboard is visible.
-      expect(isKeyboardVisible, true);
-    });
+        // Verify that KeyboardVisibilityProvider reported that the
+        // keyboard is visible.
+        expect(isKeyboardVisible, KeyboardVisibilityStatus.visible);
+      },
+    );
     testWidgets(
-        'setVisibilityForTesting allows overriding of value to false for testing',
-        (WidgetTester tester) async {
-      // Pretend that the keyboard is not visible.
-      KeyboardVisibilityTesting.setVisibilityForTesting(false);
+      'setVisibilityForTesting allows overriding of value to false for testing',
+      (WidgetTester tester) async {
+        // Pretend that the keyboard is not visible.
+        KeyboardVisibilityTesting.setVisibilityForTesting(
+          KeyboardVisibilityStatus.notVisible,
+        );
 
-      // Build a Widget tree and query KeyboardVisibilityProvider
-      // for the visibility of the keyboard.
-      bool? isKeyboardVisible;
+        // Build a Widget tree and query KeyboardVisibilityProvider
+        // for the visibility of the keyboard.
+        KeyboardVisibilityStatus isKeyboardVisible =
+            KeyboardVisibilityStatus.visible;
 
-      await tester.pumpWidget(
-        KeyboardVisibilityProvider(
-          child: Builder(
-            builder: (BuildContext context) {
-              isKeyboardVisible =
-                  KeyboardVisibilityProvider.isKeyboardVisible(context);
-              return SizedBox();
-            },
+        await tester.pumpWidget(
+          KeyboardVisibilityProvider(
+            child: Builder(
+              builder: (BuildContext context) {
+                isKeyboardVisible =
+                    KeyboardVisibilityProvider.isKeyboardVisible(context);
+                return SizedBox();
+              },
+            ),
           ),
-        ),
-      );
+        );
 
-      // Verify that KeyboardVisibilityProvider reported that the
-      // keyboard is visible.
-      expect(isKeyboardVisible, false);
-    });
+        // Verify that KeyboardVisibilityProvider reported that the
+        // keyboard is visible.
+        expect(isKeyboardVisible, KeyboardVisibilityStatus.notVisible);
+      },
+    );
   });
 }

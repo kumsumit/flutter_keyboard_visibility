@@ -5,3 +5,4 @@ export 'package:flutter_keyboard_visibility/src/keyboard_visibility_test_util.da
 export 'package:flutter_keyboard_visibility/src/ui/keyboard_dismiss_on_tap.dart';
 export 'package:flutter_keyboard_visibility/src/ui/keyboard_visibility_builder.dart';
 export 'package:flutter_keyboard_visibility/src/ui/keyboard_visibility_provider.dart';
+export 'package:flutter_keyboard_visibility_platform_interface/flutter_keyboard_visibility_platform_interface.dart';
